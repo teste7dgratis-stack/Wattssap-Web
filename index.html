@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnonStream - Vídeos & Chat</title>
+    <style>
+        body { font-family: sans-serif; background: #121212; color: white; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        header { background: #1f1f1f; width: 100%; padding: 20px; text-align: center; border-bottom: 2px solid #333; }
+        .container { display: flex; width: 90%; max-width: 1200px; margin-top: 20px; gap: 20px; }
+        #video-section { flex: 2; }
+        #chat-section { flex: 1; background: #1f1f1f; height: 500px; border-radius: 8px; display: flex; flex-direction: column; }
+        .video-card { background: #252525; padding: 10px; border-radius: 8px; margin-bottom: 20px; }
+        video { width: 100%; border-radius: 5px; }
+        #messages { flex: 1; overflow-y: auto; padding: 10px; font-size: 14px; }
+        .pix-box { background: #00ffa2; color: black; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; margin: 20px; cursor: pointer; }
+        input, button { padding: 10px; margin: 5px; border-radius: 5px; border: none; }
+        button { background: #ff4757; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>AnonStream</h1>
+    <p>Sem contas. Sem rastreios. Apenas conteúdo.</p>
+</header>
+
+<div class="pix-box" onclick="copyPix()">
+    ⚡ Apoie o servidor: Clique para copiar o PIX
+</div>
+
+<div class="container">
+    <section id="video-section">
+        <div class="video-card">
+            <h3>Postar Novo Vídeo</h3>
+            <input type="file" id="videoInput" accept="video/*">
+            <button onclick="postVideo()">Postar Anonimamente</button>
+        </div>
+        <div id="feed">
+            </div>
+    </section>
+
+    <section id="chat-section">
+        <div id="messages"><strong>Sistema:</strong> Bem-vindo ao chat anônimo!</div>
+        <div style="display:flex; padding: 10px;">
+            <input type="text" id="chatInput" placeholder="Sua mensagem..." style="flex:1">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Função para postar vídeo (Simulação Local)
+    function postVideo() {
+        const input = document.getElementById('videoInput');
+        if (input.files[0]) {
+            const url = URL.createObjectURL(input.files[0]);
+            const feed = document.getElementById('feed');
+            const videoHTML = `
+                <div class="video-card">
+                    <video src="${url}" controls></video>
+                    <p>Postado em: ${new Date().toLocaleTimeString()}</p>
+                </div>`;
+            feed.innerHTML = videoHTML + feed.innerHTML;
+        }
+    }
+
+    // Função para o Chat
+    function sendMessage() {
+        const input = document.getElementById('chatInput');
+        if (input.value) {
+            const msgDiv = document.getElementById('messages');
+            msgDiv.innerHTML += `<div><strong>Anônimo:</strong> ${input.value}</div>`;
+            input.value = '';
+            msgDiv.scrollTop = msgDiv.scrollHeight;
+        }
+    }
+
+    // Função PIX
+    function copyPix() {
+        const chavePix = "SUA_CHAVE_PIX_AQUI";
+        navigator.clipboard.writeText(chavePix);
+        alert("Chave PIX copiada! Obrigado pelo apoio.");
+    }
+</script>
+
+</body>
+</html>
